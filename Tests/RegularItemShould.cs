@@ -10,6 +10,7 @@ namespace csharp
 
         [TestCase(7, 10, ExpectedResult = 6, TestName = "RegularItemQualityShouldDecreaseByOne")]
         [TestCase(51, 10, ExpectedResult = 50, TestName = "RegularItemQualityShouldBeMax50")]
+        [TestCase(30, 100, ExpectedResult = 29, TestName = "RegularItemQualityShouldDecreaseByOne")]
         [TestCase(0, 10, ExpectedResult = 0, TestName = "RegularItemQualityShouldNotBeNegative")]
         public int RegularItemQualityShould(int quality, int sellin)
         {

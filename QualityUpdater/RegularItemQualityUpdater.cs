@@ -25,11 +25,10 @@
                 _item.Quality = 50;
                 return;
             }
-            if (_item.SellIn < 50)
-            {
-                _item.Quality = _item.Quality - 1;
-            }
-            // Item Quality can never be 0
+            
+            _item.Quality = _item.Quality - 1;
+            
+            // Item Quality decreases twice after sell in passes
             if (_item.SellIn < 0 && _item.Quality > 1)
             {
                 _item.Quality = _item.Quality - 1;
