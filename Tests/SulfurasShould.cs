@@ -7,16 +7,28 @@ namespace csharp
     [TestFixture]
     public class SulfurasShould
     {
-        [Test]
-        public void SulfurasShouldAlwaysHaveQuality80()
+
+        [TestCase(1, 10, ExpectedResult = 80, TestName = "QualityShouldAlwaysBe80")]
+        [TestCase(50, 10, ExpectedResult = 80, TestName = "QualityShouldAlwaysBe80_Test2")]
+        [TestCase(7, 10, ExpectedResult = 80, TestName = "QualityShouldAlwaysBe80_Test3")]
+        [TestCase(12, 10, ExpectedResult = 80, TestName = "QualityShouldAlwaysBe80_Test4")]
+        public int SulfurasQualityShould(int quality, int sellin)
         {
-            int quality = 7;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.Surfuras, 
-                                                            SellIn = 10, 
-                                                            Quality = quality } };
+            Item item = GetItem(ItemName.Surfuras, quality, sellin);
+            IList<Item> items = new List<Item> { item };
             GildedRose app = new GildedRose(items);
             app.UpdateQuality();
-            Assert.AreEqual(quality -1, items[0].Quality);
+
+            return items[0].Quality;
+        }
+        private Item GetItem(string name, int quality, int sellin)
+        {
+            return new Item
+            {
+                Name = name,
+                SellIn = sellin,
+                Quality = quality
+            };
         }
     }
 }
