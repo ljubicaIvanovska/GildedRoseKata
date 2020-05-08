@@ -7,40 +7,29 @@ namespace csharp
     [TestFixture]
     public class AgedBrieShould
     {
-        [Test]
-        public void AgedBrieQualityShouldIncreaseByOne()
+        [TestCase(7, 10, ExpectedResult = 8, TestName = "AgedBrieQualityShouldIncreaseByOne")]
+        [TestCase(-1, 10, ExpectedResult = 0, TestName = "QualityShouldNotBeNegative")]
+        [TestCase(49, 9, ExpectedResult = 50, TestName = "QualityShouldNotBeMoreThanFifty")]
+
+        public int AgedBrieQualityShould(int quality, int sellin)
         {
-            int quality = 7;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.AgedBrie, 
-                                                            SellIn = 10, 
-                                                            Quality = quality } };
+            Item item = GetItem(ItemName.AgedBrie, quality, sellin);
+            IList<Item> items = new List<Item> { item };
             GildedRose app = new GildedRose(items);
             app.UpdateQuality();
-            Assert.AreEqual(quality + 1, items[0].Quality);
+
+            return items[0].Quality;
         }
-     
-        [Test]
-        public void AgedBrieQualityShouldBeMax50()
+        private Item GetItem(string name, int quality, int sellin)
         {
-            int quality = 50;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.AgedBrie, 
-                                                            SellIn = 10, 
-                                                            Quality = quality } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(quality, items[0].Quality);
+            return new Item
+            {
+                Name = name,
+                SellIn = sellin,
+                Quality = quality
+            };
         }
-        [Test]
-        public void AgedBrieQualityShouldNotBeNegative()
-        {
-            int quality = -1;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.AgedBrie, 
-                                                            SellIn = 10, 
-                                                            Quality = quality } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(0, items[0].Quality);
-        }
+
         [Test]
         public void AgedBrieSellinDecreasesAfterUpdate()
         {

@@ -87,13 +87,13 @@ namespace csharp
         public void BackStagePass9DaysBeforeConcert()
         {
             int quality = 10;
-            int daysBeforeConcert = 9;
+            int daysBeforeConcert = 0;
             int increase = 1;
             string itemName = "Backstage passes to a TAFKAL80ETC concert";
             IList<Item> items = new List<Item> { new Item { Name = itemName, SellIn = daysBeforeConcert, Quality = quality } };
             GildedRose app = new GildedRose(items);
             app.UpdateQuality();
-            Assert.AreEqual(quality + increase, items[0].Quality);
+            Assert.AreEqual(0, items[0].Quality);
         }
         [Test]
         public void BackStagePass4DaysBeforeConcert()
