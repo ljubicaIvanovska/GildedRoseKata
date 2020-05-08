@@ -13,7 +13,7 @@ namespace csharp
         [TestCase(12, 10, ExpectedResult = 10, TestName = "QualityDecreasesTwice")]
         public int ConjuredQualityShould(int quality, int sellin)
         {
-            Item item = GetItem(ItemName.Conjured, quality, sellin);
+            Item item = GetItem("Conjured cheese", quality, sellin);
             IList<Item> items = new List<Item> { item };
             GildedRose app = new GildedRose(items);
             app.UpdateQuality();

@@ -6,6 +6,11 @@ namespace csharp.Items
     {
         public static IUpdateItemQuality GetQualityUpdater(Item item)
         {
+            if (item.Name.StartsWith("Conjured"))
+            {
+                return new ConjuredeQualityUpdater(item);
+            }
+
             switch (item.Name)
             {
                 case ItemName.AgedBrie:
@@ -14,8 +19,6 @@ namespace csharp.Items
                     return new SulfurasQualityUpdater(item);
                 case ItemName.BackstagePass:
                     return new BackStagePassQualityUpdater(item);
-                case ItemName.Conjured:
-                    return new ConjuredeQualityUpdater(item);
                 default:
                     return new RegularItemQualityUpdater(item);
             }
