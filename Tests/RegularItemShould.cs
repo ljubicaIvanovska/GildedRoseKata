@@ -7,39 +7,27 @@ namespace csharp
     [TestFixture]
     public class RegularItemShould
     {
-        [Test]
-        public void RegularItemQualityShouldDecreaseByOne()
+
+        [TestCase(7, 10, ExpectedResult = 6, TestName = "RegularItemQualityShouldDecreaseByOne")]
+        [TestCase(51, 10, ExpectedResult = 50, TestName = "RegularItemQualityShouldBeMax50")]
+        [TestCase(0, 10, ExpectedResult = 0, TestName = "RegularItemQualityShouldNotBeNegative")]
+        public int RegularItemQualityShould(int quality, int sellin)
         {
-            int quality = 7;
-            IList<Item> items = new List<Item> { new Item { Name = "Any Item Name", 
-                                                            SellIn = 10, 
-                                                            Quality = quality } };
+            Item item = GetItem("Any Other Name", quality, sellin);
+            IList<Item> items = new List<Item> { item };
             GildedRose app = new GildedRose(items);
             app.UpdateQuality();
-            Assert.AreEqual(quality -1, items[0].Quality);
+
+            return items[0].Quality;
         }
-     
-        [Test]
-        public void RegularItemQualityShouldBeMax50()
+        private Item GetItem(string name, int quality, int sellin)
         {
-            int quality = 50;
-            IList<Item> items = new List<Item> { new Item { Name = "Laundry Soap", 
-                                                            SellIn = 10, 
-                                                            Quality = quality } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(quality, items[0].Quality);
-        }
-        [Test]
-        public void RegularItemQualityShouldNotBeNegative()
-        {
-            int quality = -1;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.AgedBrie, 
-                                                            SellIn = 10, 
-                                                            Quality = quality } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(0, items[0].Quality);
+            return new Item
+            {
+                Name = name,
+                SellIn = sellin,
+                Quality = quality
+            };
         }
     }
 }

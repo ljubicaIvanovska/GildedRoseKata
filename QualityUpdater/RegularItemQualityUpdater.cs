@@ -13,7 +13,7 @@
         {
             _item.SellIn -= 1;
             // Quality can never be negative for item
-            if (_item.Quality < 0)
+            if (_item.Quality <= 0)
             {
                 _item.Quality = 0;
                 return;
@@ -29,7 +29,8 @@
             {
                 _item.Quality = _item.Quality - 1;
             }
-            if (_item.SellIn < 0)
+            // Item Quality can never be 0
+            if (_item.SellIn < 0 && _item.Quality > 1)
             {
                 _item.Quality = _item.Quality - 1;
             }
