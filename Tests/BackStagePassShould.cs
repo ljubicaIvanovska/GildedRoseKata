@@ -7,78 +7,33 @@ namespace csharp
     [TestFixture]
     public class BackStagePassShould
     {
-        [Test]
-        public void BackStagePassQualityShouldIncrease()
+        [TestCase(10, -1, ExpectedResult = 0, TestName = "AfterConcertShouldBeZero")]
+        [TestCase(7, 10, ExpectedResult = 9, TestName = "BackStagePassQualityShouldIncrease")]
+        [TestCase(10, 9, ExpectedResult = 12, TestName = "9DaysBeforeConcertShouldIncreaseByTwo")]
+        [TestCase(10, 10, ExpectedResult = 12, TestName = "10DaysBeforeConcertShouldIncreaseByTwo")]
+        [TestCase(10, 5, ExpectedResult = 13, TestName = "5DaysBeforeConcertShouldIncreaseByThree")]
+        [TestCase(10, 4, ExpectedResult = 13, TestName = "4DaysBeforeConcertShouldIncreaseByThree")]
+        [TestCase(10, 0, ExpectedResult = 0, TestName = "BackStagePassAfterConcertShouldBeZero")]
+        [TestCase(49, 9, ExpectedResult = 50, TestName = "QualityShouldNotBeMoreThanFifty")]
+
+        public int BackStageQualityShould(int quality, int sellin)
         {
-            int quality = 7;
-            int increase = 1;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.BackstagePass, 
-                                                            SellIn = 10, 
-                                                            Quality = quality } };
+            Item item = GetItem(ItemName.BackstagePass, quality, sellin);
+            IList<Item> items = new List<Item> { item };
             GildedRose app = new GildedRose(items);
             app.UpdateQuality();
-            Assert.AreEqual(quality + increase, items[0].Quality);
+
+            return items[0].Quality;
         }
-        [Test]
-        public void BackStagePassSellinShouldDecreasesAfterUpdate()
+        private Item GetItem(string name, int quality, int sellin)
         {
-            int sellin = 10;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.BackstagePass,
-                                                            SellIn = sellin,
-                                                            Quality = 20 } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(sellin - 1, items[0].SellIn);
+            return new Item
+            {
+                Name = name,
+                SellIn = sellin,
+                Quality = quality
+            };
         }
 
-        [Test]
-        public void BackStagePassQualityShouldNotBeMoreThanFifty()
-        {
-            int quality = 100;
-            int daysBeforeConcert = 9;
-            int increase = 1;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.BackstagePass, 
-                                                            SellIn = daysBeforeConcert, 
-                                                            Quality = quality } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(50, items[0].Quality);
-        }
-
-        [Test]
-        public void BackStagePass9DaysBeforeConcertSHouldIncreaseByOne()
-        {
-            int quality = 10;
-            int daysBeforeConcert = 9;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.BackstagePass, 
-                                                            SellIn = daysBeforeConcert, 
-                                                            Quality = quality } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(quality + 1, items[0].Quality);
-        }
-        [Test]
-        public void BackStagePass4DaysBeforeConcertShouldIncreaseByTwo()
-        {
-            int quality = 10;
-            int daysBeforeConcert = 4;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.BackstagePass, 
-                                                            SellIn = daysBeforeConcert, 
-                                                            Quality = quality } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(quality + 2, items[0].Quality);
-        }
-        [Test]
-        public void BackStagePassAfterConcertShouldBeZero()
-        {
-            int quality = 10;
-            IList<Item> items = new List<Item> { new Item { Name = ItemName.BackstagePass, 
-                                                            SellIn = -1, 
-                                                            Quality = quality } };
-            GildedRose app = new GildedRose(items);
-            app.UpdateQuality();
-            Assert.AreEqual(0, items[0].Quality);
-        }
     }
 }

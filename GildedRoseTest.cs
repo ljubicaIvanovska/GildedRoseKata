@@ -80,7 +80,7 @@ namespace csharp
             IList<Item> items = new List<Item> { new Item { Name = itemName, SellIn = daysBeforeConcert, Quality = quality } };
             GildedRose app = new GildedRose(items);
             app.UpdateQuality();
-            Assert.AreEqual(quality, items[0].Quality);
+            Assert.AreEqual(quality+2, items[0].Quality);
         }
 
         [Test]
